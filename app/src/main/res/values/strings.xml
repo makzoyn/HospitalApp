@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">HospitalApp</string>
+    <string name="menu_add_btn_title">Добавить</string>
+    <string name="input_hospital">Наименование больницы</string>
+    <string name="commit">Подтвержение</string>
+    <string name="cancel">Отмена</string>
+    <string name="input_doctor">Введите специальность</string>
+</resources>

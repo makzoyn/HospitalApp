@@ -1,0 +1,52 @@
+Index: app/src/main/java/com/example/hospitalapp/ui/DoctorFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/hospitalapp/ui/DoctorFragment.kt b/app/src/main/java/com/example/hospitalapp/ui/DoctorFragment.kt
+--- a/app/src/main/java/com/example/hospitalapp/ui/DoctorFragment.kt	
++++ b/app/src/main/java/com/example/hospitalapp/ui/DoctorFragment.kt	(date 1682408864068)
+@@ -65,11 +65,11 @@
+             })
+         }
+ 
+-//        val adapter = DoctorPageAdapter(requireActivity(), hospital!!)
+-//        binding.vpDoctor.adapter = adapter
+-//        TabLayoutMediator(binding.tabDoctor, binding.vpDoctor, true, true) { tab, pos ->
+-//            tab.text = hospital?.doctors?.get(pos)?.name
+-//        }.attach()
++        val adapter = DoctorPageAdapter(requireActivity(), hospital!!)
++        binding.vpDoctor.adapter = adapter
++        TabLayoutMediator(binding.tabDoctor, binding.vpDoctor, true, true) { tab, pos ->
++            tab.text = hospital?.doctors?.get(pos)?.name
++        }.attach()
+ 
+         binding.tabDoctor.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+             override fun onTabSelected(tab: TabLayout.Tab?) {
+@@ -86,16 +86,16 @@
+         })
+ 
+     }
+-//    private inner class DoctorPageAdapter(fa: FragmentActivity, private val hospital: Hospital) :
+-//        FragmentStateAdapter(fa) {
+-//        override fun getItemCount(): Int {
+-//            return (hospital.doctors?.size ?: 0)
+-//        }
+-//
+-//        override fun createFragment(position: Int): Fragment {
+-//            return DoctorListFragment(hospital.doctors?.get(position)!!)
+-//        }
+-//    }
++    private inner class DoctorPageAdapter(fa: FragmentActivity, private val hospital: Hospital) :
++        FragmentStateAdapter(fa) {
++        override fun getItemCount(): Int {
++            return (hospital.doctors?.size ?: 0)
++        }
++
++        override fun createFragment(position: Int): Fragment {
++            return DoctorListFragment(hospital.doctors?.get(position)!!)
++        }
++    }
+ 
+     interface Callbacks {
+         fun setTitle(_title: String)
