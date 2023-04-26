@@ -63,5 +63,34 @@ class HospitalRepository private constructor() {
         hospitalList.postValue(h)
     }
 
+    fun deleteWrite(doctorID: UUID, write: Write){
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
+        val doctor = hospital.doctors?.find { it.id == doctorID }
+        if (doctor!!.writes?.isEmpty() == true) return
+        val list = doctor.writes as ArrayList<Write>
+        list.remove(write)
+        doctor.writes = list
+        hospitalList.postValue(h)
+    }
+    fun editWrite(doctorID: UUID, write: Write) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
+        val doctor = hospital.doctors?.find { it.id == doctorID } ?: return
+        val _write = doctor.writes?.find { it.id == write.id }
+        if (_write == null) {
+            newWrite(doctorID, write)
+            return
+        }
+        val list = doctor.writes as ArrayList<Write>
+        val i = list.indexOf(_write)
+        list.remove(_write)
+        list.add(i, write)
+        doctor.writes = list
+        hospitalList.postValue(h)
+
+    }
+
+
 
 }

@@ -1,5 +1,6 @@
 package com.example.hospitalapp.ui
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,7 +47,7 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
     private var lastItemView : View? = null
 
     private inner class DoctorHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnClickListener {
+        View.OnClickListener{
         lateinit var write: Write
 
         fun bind(write: Write) {
@@ -59,6 +61,12 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
                 itemView.setOnClickListener(null)
                 itemView.setBackgroundColor(Color.LTGRAY)
             }
+            itemView.findViewById<ImageButton>(R.id.deleteWriteBtn).setOnClickListener {
+                showDeleteDialog(write)
+            }
+            itemView.findViewById<ImageButton>(R.id.editWriteBtn).setOnClickListener {
+                callbacks?.showWrite(doctor.id, write)
+            }
         }
 
         init {
@@ -68,7 +76,17 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         override fun onClick(v: View?) {
             TODO("Not yet implemented")
         }
-
+    }
+    private fun showDeleteDialog(write: Write){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(true)
+        builder.setMessage("Удалить прием на Дату: ${write.date} \n в ${write.time} часов из списка?")
+        builder.setPositiveButton("Подтверждение") {_, _ ->
+            viewModel.deleteWrite(doctor.id,write)
+        }
+        builder.setNegativeButton("Отмена", null)
+        val alert = builder.create()
+        alert.show()
     }
     private inner class DoctorListAdapter(private val items: List<Write>) :
         RecyclerView.Adapter<DoctorHolder>() {
@@ -88,7 +106,7 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         }
     }
     interface Callbacks{
-        fun showWrite(hospitalID: UUID, _write: Write?)
+        fun showWrite(doctorID: UUID, _write: Write?)
     }
 
     var callbacks : Callbacks? = null

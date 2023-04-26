@@ -113,9 +113,17 @@ class WriteFragment private constructor() : Fragment() {
                         enable = binding.enabledCheck.isChecked
                     }
                     viewModel.newWrite(doctorID!!,write!!)
-                    Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
+                else {
+                    write?.apply {
+                        time = binding.tvTime.text.toString()
+                        date = binding.tvDate.text.toString()
+                        enable = binding.enabledCheck.isChecked
+                    }
+                    viewModel.editWrite(doctorID!!,write!!)
+                }
+                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
 

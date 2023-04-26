@@ -108,7 +108,7 @@ class DoctorFragment : Fragment() {
 
     interface Callbacks {
         fun setTitle(_title: String)
-        fun showWrite(hospitalID: UUID, _write: Write? = null)
+        fun showWrite(doctorID: UUID, _write: Write? = null)
     }
 
     var callbacks: Callbacks? = null
