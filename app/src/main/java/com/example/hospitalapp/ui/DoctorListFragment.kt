@@ -1,11 +1,13 @@
 package com.example.hospitalapp.ui
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,8 +50,15 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
 
         fun bind(write: Write) {
             this.write = write
-            val s = write.time
-            itemView.findViewById<TextView>(R.id.tvElement).text = s
+            val time = write.time
+            val date = write.date
+            val enable = write.enable
+            itemView.findViewById<TextView>(R.id.tvElementTime).text = time
+            itemView.findViewById<TextView>(R.id.tvElementDate).text = date
+            if(!write.enable) {
+                itemView.setOnClickListener(null)
+                itemView.setBackgroundColor(Color.LTGRAY)
+            }
         }
 
         init {
@@ -77,5 +86,20 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         override fun onBindViewHolder(holder: DoctorHolder, position: Int) {
             holder.bind(items[position])
         }
+    }
+    interface Callbacks{
+        fun showWrite(hospitalID: UUID, _write: Write?)
+    }
+
+    var callbacks : Callbacks? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks
+    }
+
+    override fun onDetach() {
+        callbacks = null
+        super.onDetach()
     }
 }

@@ -49,17 +49,15 @@ class HospitalRepository private constructor() {
         hospitalList.postValue(h)
     }
 
-    fun newWrite(doctorID: UUID, time: String) {
-        if (hospitalList.value == null) return
-        val h = hospitalList.value!!
-        val hospital = h.find { it.doctors?.find{ it.id==doctorID} != null} ?: return
+    fun newWrite(doctorID: UUID, write: Write) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
         val doctor = hospital.doctors?.find { it.id == doctorID } ?: return
-        val write = Write(time = time)
-        val list: ArrayList<Write>
-        if (doctor.writes != null) {
-            list = (doctor.writes as ArrayList<Write>)
-        } else
-            list = ArrayList<Write>()
+        val list: ArrayList<Write> = if ((doctor.writes?.isEmpty() ?: true) == true)
+            ArrayList()
+        else {
+            doctor.writes as ArrayList<Write>
+        }
         list.add(write)
         doctor.writes = list
         hospitalList.postValue(h)

@@ -84,6 +84,15 @@ class DoctorFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         })
+        binding.faAddWriteBtn.visibility =
+            if ((hospital?.doctors?.size ?: 0) == 0)
+                View.GONE
+            else {
+                binding.faAddWriteBtn.setOnClickListener {
+                    callbacks?.showWrite(hospital?.doctors!!.get(tabPosition).id)
+                }
+                View.VISIBLE
+            }
 
     }
     private inner class DoctorPageAdapter(fa: FragmentActivity, private val hospital: Hospital) :
@@ -99,6 +108,7 @@ class DoctorFragment : Fragment() {
 
     interface Callbacks {
         fun setTitle(_title: String)
+        fun showWrite(hospitalID: UUID, _write: Write? = null)
     }
 
     var callbacks: Callbacks? = null
