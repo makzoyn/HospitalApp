@@ -27,10 +27,10 @@ class ClientFragment : Fragment() {
     private val binding get() = _binding!!
     companion object {
         private lateinit var writeID: UUID
-        private lateinit var client: Client
-        fun newInstance(writeID: UUID, client: Client): ClientFragment {
+        //private lateinit var client: Client
+        fun newInstance(writeID: UUID/*, client: Client*/): ClientFragment {
             this.writeID = writeID
-            this.client = client
+            //this.client = client
             return ClientFragment()
         }
     }
@@ -45,7 +45,7 @@ class ClientFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.setClientBtn.setOnClickListener{
             if(client == null) {
@@ -62,7 +62,7 @@ class ClientFragment : Fragment() {
             Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-    }
+    }*/
 
 
 }

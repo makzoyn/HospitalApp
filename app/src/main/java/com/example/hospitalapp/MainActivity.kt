@@ -13,6 +13,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentTransaction
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.repository.HospitalRepository
+import com.example.hospitalapp.ui.CLIENT_TAG
+import com.example.hospitalapp.ui.ClientFragment
 import com.example.hospitalapp.ui.DOCTOR_TAG
 import com.example.hospitalapp.ui.DoctorFragment
 import com.example.hospitalapp.ui.DoctorListFragment
@@ -27,7 +29,8 @@ import java.util.UUID
 class MainActivity : AppCompatActivity(),
     HospitalFragment.Callbacks,
     DoctorFragment.Callbacks,
-    DoctorListFragment.Callbacks{
+    DoctorListFragment.Callbacks,
+    WriteListFragment.Callbacks{
     private var myNewHospital: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -140,6 +143,14 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
+    override fun showClient(writeID: UUID) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.mainFragment, ClientFragment.newInstance(writeID), CLIENT_TAG)
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+    }
 
 
 }

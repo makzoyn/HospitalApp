@@ -37,11 +37,11 @@ class WriteListFragment: Fragment() {
     ): View? {
         _binding = FragmentWriteListBinding.inflate(inflater, container, false)
 
-//        binding.apply {
-//            faAddClientBtn.setOnClickListener {
-//                callbacks?.showClient(writeID)
-//            }
-//        }
+        binding.apply {
+            faAddClientBtn.setOnClickListener {
+                callbacks?.showClient(writeID)
+            }
+        }
         return binding.root
     }
 
@@ -92,20 +92,20 @@ class WriteListFragment: Fragment() {
 //            holder.bind(items[position])
 //        }
 //    }
-//    interface Callbacks {
-//        fun showClient(writeID: UUID)
-//    }
-//
-//    var callbacks: Callbacks? = null
-//
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        callbacks = context as Callbacks
-//    }
-//
-//    override fun onDetach() {
-//        callbacks = null
-//        super.onDetach()
-//    }
+    interface Callbacks {
+        fun showClient(writeID: UUID)
+    }
+
+    var callbacks: Callbacks? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks
+    }
+
+    override fun onDetach() {
+        callbacks = null
+        super.onDetach()
+    }
 
 }
