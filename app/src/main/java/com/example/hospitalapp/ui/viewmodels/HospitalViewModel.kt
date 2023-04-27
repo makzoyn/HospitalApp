@@ -14,6 +14,6 @@ class HospitalViewModel : ViewModel() {
             hospitalList.postValue(it)
         }
     }
-    fun newFaculty(name: String) =
+    fun newHospital(name: String) =
         HospitalRepository.get().newHospital(name)
 }

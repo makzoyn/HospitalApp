@@ -51,7 +51,6 @@ class WriteFragment private constructor() : Fragment() {
     }
 
 
-    //TODO("Доделать этот кусок и понять что он вообще делает")
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,7 +62,10 @@ class WriteFragment private constructor() : Fragment() {
                 val timePickerDialog = TimePickerDialog(
                     requireContext(),
                     { /*timePicker: TimePicker?*/_, hour1: Int, minute1: Int ->
-                        tvTime.text = "$hour1:$minute1"
+                        if(minute1 < 10)
+                            tvTime.text = "$hour1:0$minute1"
+                        else
+                            tvTime.text = "$hour1:$minute1"
                     },
                     hour,
                     minute,
@@ -104,7 +106,11 @@ class WriteFragment private constructor() : Fragment() {
             } else if (TextUtils.isEmpty(binding.tvDate.text)) {
                 Toast.makeText(requireContext(), "Date empty!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            } else {
+            }else if(binding.tvTime.text.take(2).toString() <= "7" && binding.tvTime.text.take(2).toString() >= "18" ){
+                Toast.makeText(requireContext(), "Set hour 7-18!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else {
                 if (write == null) {
                     write = Write()
                     write?.apply {

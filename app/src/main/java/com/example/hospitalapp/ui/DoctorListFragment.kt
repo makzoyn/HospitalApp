@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hospitalapp.R
+import com.example.hospitalapp.data.Client
 import com.example.hospitalapp.data.Doctor
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.databinding.FragmentDoctorListBinding
@@ -44,17 +44,13 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         viewModel = ViewModelProvider(this).get(DoctorListViewModel::class.java)
     }
 
-    private var lastItemView : View? = null
-
     private inner class DoctorHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnClickListener{
+        View.OnClickListener {
         lateinit var write: Write
-
         fun bind(write: Write) {
             this.write = write
             val time = write.time
             val date = write.date
-            val enable = write.enable
             itemView.findViewById<TextView>(R.id.tvElementTime).text = time
             itemView.findViewById<TextView>(R.id.tvElementDate).text = date
             if(!write.enable) {
@@ -72,16 +68,17 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         init {
             itemView.setOnClickListener(this)
         }
-
         override fun onClick(v: View?) {
-            TODO("Not yet implemented")
+            callbacks?.showWriteListFragment(write.id, write)
         }
+
+
     }
     private fun showDeleteDialog(write: Write){
         val builder = AlertDialog.Builder(requireContext())
         builder.setCancelable(true)
         builder.setMessage("Удалить прием на Дату: ${write.date} \n в ${write.time} часов из списка?")
-        builder.setPositiveButton("Подтверждение") {_, _ ->
+        builder.setPositiveButton("Подтверждаю") {_, _ ->
             viewModel.deleteWrite(doctor.id,write)
         }
         builder.setNegativeButton("Отмена", null)
@@ -107,6 +104,7 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
     }
     interface Callbacks{
         fun showWrite(doctorID: UUID, _write: Write?)
+        fun showWriteListFragment(writeID: UUID, _write: Write?)
     }
 
     var callbacks : Callbacks? = null

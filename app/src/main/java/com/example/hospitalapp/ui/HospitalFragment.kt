@@ -14,6 +14,9 @@ import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.databinding.FragmentHospitalBinding
 import com.example.hospitalapp.ui.viewmodels.HospitalViewModel
+import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
 import java.util.UUID
 
 const val HOSPITAL_TAG = "HospitalFragment"

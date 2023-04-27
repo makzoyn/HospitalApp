@@ -1,6 +1,7 @@
 package com.example.hospitalapp.repository
 
 import androidx.lifecycle.MutableLiveData
+import com.example.hospitalapp.data.Client
 import com.example.hospitalapp.data.Doctor
 import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.data.Write
@@ -62,6 +63,22 @@ class HospitalRepository private constructor() {
         doctor.writes = list
         hospitalList.postValue(h)
     }
+    fun newClient(writeID: UUID, client: Client) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.writes?.find { it.id == writeID } !=null } !=null } ?: return
+        val doctor = hospital.doctors?.find { it.writes?.find { it.id == writeID } !=null } ?: return
+        val write = doctor.writes?.find { it.id == writeID }  ?: return
+
+        val list: ArrayList<Client> = if ((write.clients?.isEmpty() ?: true) == true)
+            ArrayList()
+        else {
+            write.clients as ArrayList<Client>
+        }
+        list.add(client)
+        write.clients = list
+        hospitalList.postValue(h)
+    }
+
 
     fun deleteWrite(doctorID: UUID, write: Write){
         val h = hospitalList.value ?: return

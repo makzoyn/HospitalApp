@@ -15,6 +15,7 @@ import com.example.hospitalapp.databinding.FragmentDoctorBinding
 import com.example.hospitalapp.ui.viewmodels.DoctorViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.util.GregorianCalendar
 import java.util.UUID
 
 const val DOCTOR_TAG = "DoctorFragment"
@@ -23,14 +24,15 @@ class DoctorFragment : Fragment() {
     private val binding get() = _binding!!
 
     companion object {
-        private lateinit var _hospitalID: UUID
+        private lateinit var hospitalID: UUID
+
         fun newInstance(hospitalID: UUID): DoctorFragment {
-            _hospitalID = hospitalID
+            this.hospitalID = hospitalID
             return DoctorFragment()
         }
 
         val getHospitalID
-            get() = _hospitalID
+            get() = hospitalID
     }
 
     private lateinit var viewModel: DoctorViewModel
@@ -50,7 +52,7 @@ class DoctorFragment : Fragment() {
             updateUI(it)
             callbacks?.setTitle(it?.name ?: "")
         }
-        viewModel.setHospital(_hospitalID)
+        viewModel.setHospital(hospitalID)
     }
 
     var tabPosition = 0
@@ -77,11 +79,11 @@ class DoctorFragment : Fragment() {
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+                tabPosition = tab?.position!!
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                TODO("Not yet implemented")
+                tabPosition = tab?.position!!
             }
         })
         binding.faAddWriteBtn.visibility =
@@ -109,6 +111,8 @@ class DoctorFragment : Fragment() {
     interface Callbacks {
         fun setTitle(_title: String)
         fun showWrite(doctorID: UUID, _write: Write? = null)
+
+
     }
 
     var callbacks: Callbacks? = null
