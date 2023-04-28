@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentTransaction
+import com.example.hospitalapp.data.Client
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.repository.HospitalRepository
 import com.example.hospitalapp.ui.CLIENT_TAG
@@ -29,8 +30,7 @@ import java.util.UUID
 class MainActivity : AppCompatActivity(),
     HospitalFragment.Callbacks,
     DoctorFragment.Callbacks,
-    DoctorListFragment.Callbacks,
-    WriteListFragment.Callbacks{
+    DoctorListFragment.Callbacks{
     private var myNewHospital: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,14 +126,6 @@ class MainActivity : AppCompatActivity(),
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
-    override fun showWriteListFragment(writeID: UUID, _write: Write?) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.mainFragment, WriteListFragment.newInstance(writeID, _write), WRITE_LIST_TAG)
-            .addToBackStack(null)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit()
-    }
     override fun showDoctorFragment(hospitalID: UUID) {
         supportFragmentManager
             .beginTransaction()
@@ -143,10 +135,10 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
-    override fun showClient(writeID: UUID) {
+    override fun showClientFragment(writeID: UUID, _client: Client?) {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.mainFragment, ClientFragment.newInstance(writeID), CLIENT_TAG)
+            .replace(R.id.mainFragment, ClientFragment.newInstance(writeID, _client), CLIENT_TAG)
             .addToBackStack(null)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()

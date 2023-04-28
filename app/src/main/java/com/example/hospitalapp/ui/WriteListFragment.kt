@@ -5,8 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.hospitalapp.R
+import com.example.hospitalapp.data.Client
 import com.example.hospitalapp.data.Write
+import com.example.hospitalapp.databinding.FragmentClientBinding
 import com.example.hospitalapp.databinding.FragmentWriteListBinding
 import com.example.hospitalapp.ui.viewmodels.WriteListViewModel
 import java.util.UUID
@@ -42,18 +49,22 @@ class WriteListFragment: Fragment() {
                 callbacks?.showClient(writeID)
             }
         }
+
         return binding.root
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        binding.rvClients.layoutManager = LinearLayoutManager(context,
-//            LinearLayoutManager.VERTICAL, false)
-//        binding.rvClients.adapter = WriteListAdapter(emptyList())
-//        viewModel = ViewModelProvider(this).get(WriteListViewModel::class.java)
-//    }
-//
-//
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val client = write.clients?.find { it.id == writeID }
+        binding.apply {
+            tvFCS.text = client?.firstName
+            tvReason.text = client?.reason
+        }
+        viewModel = ViewModelProvider(this).get(WriteListViewModel::class.java)
+
+    }
+
+
 //    private inner class WriteListHolder(view: View) : RecyclerView.ViewHolder(view),
 //        View.OnClickListener {
 //        lateinit var client: Client
@@ -82,7 +93,7 @@ class WriteListFragment: Fragment() {
 //            viewType: Int
 //        ): WriteListFragment.WriteListHolder {
 //            val view = layoutInflater.inflate(
-//                R.layout.client_list_element, parent, false)
+//                R.layout.fragment_write_list, parent, false)
 //            return WriteListHolder(view)
 //        }
 //
@@ -93,7 +104,7 @@ class WriteListFragment: Fragment() {
 //        }
 //    }
     interface Callbacks {
-        fun showClient(writeID: UUID)
+        fun showClient(writeID: UUID, _client: Client? = null)
     }
 
     var callbacks: Callbacks? = null

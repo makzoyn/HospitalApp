@@ -69,7 +69,9 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
             itemView.setOnClickListener(this)
         }
         override fun onClick(v: View?) {
-            callbacks?.showWriteListFragment(write.id, write)
+            //val writeFind = doctor.writes?.find {  it.id==doctor.id }
+            //val client = write.clients?.find { it.id == write.id }
+            callbacks?.showClientFragment(write.id, write.clients?.get(0))
         }
 
 
@@ -104,7 +106,7 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
     }
     interface Callbacks{
         fun showWrite(doctorID: UUID, _write: Write?)
-        fun showWriteListFragment(writeID: UUID, _write: Write?)
+        fun showClientFragment(writeID: UUID, _client: Client?)
     }
 
     var callbacks : Callbacks? = null

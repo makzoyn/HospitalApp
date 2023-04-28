@@ -10,27 +10,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Client
-import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.databinding.FragmentClientBinding
-import com.example.hospitalapp.databinding.FragmentWriteBinding
-import com.example.hospitalapp.repository.HospitalRepository
 import com.example.hospitalapp.ui.viewmodels.ClientViewModel
-import com.example.hospitalapp.ui.viewmodels.WriteViewModel
-import java.util.Calendar
 import java.util.UUID
 
 const val CLIENT_TAG = "ClientFragment"
+
 class ClientFragment : Fragment() {
     private var _binding: FragmentClientBinding? = null
     private val binding get() = _binding!!
+
     companion object {
         private lateinit var writeID: UUID
-        //private lateinit var client: Client
-        fun newInstance(writeID: UUID/*, client: Client*/): ClientFragment {
+        private var client: Client? = null
+        fun newInstance(writeID: UUID, client: Client? = null): ClientFragment {
             this.writeID = writeID
-            //this.client = client
+            this.client = client
+
             return ClientFragment()
         }
     }
@@ -45,24 +42,49 @@ class ClientFragment : Fragment() {
         return binding.root
     }
 
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.setClientBtn.setOnClickListener{
-            if(client == null) {
-                client = Client()
-                client?.apply{
+        viewModel = ViewModelProvider(this).get(ClientViewModel::class.java)
+        if (client == null) {
+            client = Client()
+            binding.setClientBtn.setOnClickListener {
+                client?.apply {
                     firstName = binding.etFirstName.text.toString()
                     middleName = binding.etMiddleName.text.toString()
                     lastName = binding.etLastName.text.toString()
                     reason = binding.etReason.text.toString()
                     haveACard = binding.cardCheck.isChecked
                 }
-                viewModel.newClient(writeID, client)
+                viewModel.newClient(writeID, client!!)
+                binding.etFirstName.isEnabled = false
+                binding.etMiddleName.isEnabled = false
+                binding.etLastName.isEnabled = false
+                binding.etReason.isEnabled = false
+                binding.cardCheck.isEnabled = false
+                binding.setClientBtn.visibility = View.GONE
+                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-            Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
-    }*/
-
-
+        else{
+            binding.etFirstName.setText(client!!.firstName)
+            binding.etMiddleName.setText(client!!.middleName)
+            binding.etLastName.setText(client!!.lastName)
+            binding.etReason.setText(client!!.reason)
+            binding.cardCheck.isChecked = client!!.haveACard
+            binding.etFirstName.isEnabled = false
+            binding.etMiddleName.isEnabled = false
+            binding.etLastName.isEnabled = false
+            binding.etReason.isEnabled = false
+            binding.cardCheck.isEnabled = false
+            binding.setClientBtn.visibility = View.GONE
+            binding.etDescription.visibility = View.VISIBLE
+            binding.setDescriptionBtn.visibility = View.VISIBLE
+            binding.setDescriptionBtn.setOnClickListener {
+                client?.description = binding.etDescription.text.toString()
+                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
 }
