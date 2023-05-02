@@ -9,4 +9,4 @@ import java.util.UUID
 
 class WriteListViewModel : ViewModel() {
 
-    }
+}

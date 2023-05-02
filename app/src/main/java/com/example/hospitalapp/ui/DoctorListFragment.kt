@@ -66,7 +66,6 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
                 callbacks?.showWrite(doctor.id, write)
             }
             val originalList = doctor.writes
-            val currentList = doctor.writes
             binding.chooseDateBtn.setOnClickListener {
                 val dt = GregorianCalendar()
                 binding.dtpCalendar.init(

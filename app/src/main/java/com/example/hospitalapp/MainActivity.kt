@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentTransaction
 import com.example.hospitalapp.data.Client
+import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.repository.HospitalRepository
 import com.example.hospitalapp.ui.CLIENT_TAG
@@ -106,6 +107,7 @@ class MainActivity : AppCompatActivity(),
                     }
                 }
             }
+
         }
         builder.setNegativeButton(getString(R.string.cancel), null)
         val alert = builder.create()
@@ -134,6 +136,8 @@ class MainActivity : AppCompatActivity(),
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
+
+
 
     override fun showClientFragment(writeID: UUID, _client: Client?) {
         supportFragmentManager
