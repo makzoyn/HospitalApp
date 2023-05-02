@@ -67,12 +67,10 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
             }
             val originalList = doctor.writes
             binding.chooseDateBtn.setOnClickListener {
-                val dt = GregorianCalendar()
-                binding.dtpCalendar.init(
-                    dt.get(Calendar.YEAR), dt.get(Calendar.MONTH),
-                    dt.get(Calendar.DAY_OF_MONTH), null
-                )
-                val chooseDate = "${dt.get(Calendar.DAY_OF_MONTH)}.${dt.get(Calendar.MONTH)+1}.${dt.get(Calendar.YEAR)}"
+                val year = (binding.dtpCalendar.year).toString()
+                val month = ((binding.dtpCalendar.month)+1).toString()
+                val day = binding.dtpCalendar.dayOfMonth.toString()
+                val chooseDate = "$day.$month.$year"
                 Toast.makeText(requireContext(), chooseDate, Toast.LENGTH_SHORT).show()
                 val refreshedList = refreshList(originalList, chooseDate)
                 binding.rvDoctorList.adapter = DoctorListAdapter(refreshedList!!)
