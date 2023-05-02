@@ -147,6 +147,15 @@ class MainActivity : AppCompatActivity(),
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
+    override fun onStop() {
+        HospitalRepository.get().saveHospital()
+        super.onStop()
+    }
+    override fun onStart() {
+        super.onStart()
+        HospitalRepository.get().loadHospital()
+    }
+
 
 
 }

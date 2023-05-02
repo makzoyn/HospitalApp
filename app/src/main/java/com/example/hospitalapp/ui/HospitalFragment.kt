@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Hospital
-import com.example.hospitalapp.database.DatabaseHelper
 import com.example.hospitalapp.databinding.FragmentHospitalBinding
-import com.example.hospitalapp.repository.HospitalRepository
 import com.example.hospitalapp.ui.viewmodels.HospitalViewModel
 import java.util.UUID
 
@@ -32,8 +29,7 @@ class HospitalFragment : Fragment() {
     private var _binding : FragmentHospitalBinding?= null
     val binding
         get() = _binding!!
-//    private val databaseHelper = DatabaseHelper(requireContext())
-//    private val hospitals = databaseHelper.getHospital()
+
     private var adapter: HospitalListAdapter = HospitalListAdapter(emptyList())
 
     companion object {
