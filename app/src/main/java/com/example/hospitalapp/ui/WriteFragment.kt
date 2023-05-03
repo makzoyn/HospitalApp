@@ -18,6 +18,9 @@ import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.databinding.FragmentWriteBinding
 import com.example.hospitalapp.ui.viewmodels.WriteViewModel
+import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.UUID
@@ -54,6 +57,13 @@ class WriteFragment private constructor() : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fun changeTimeByHalfHour(timeString: String): String {
+            val dtf = DateTimeFormatter.ofPattern("HH:mm")
+            val time = LocalTime.parse(timeString, dtf)
+            val newTime = time.plusMinutes(30)
+            val newTimeString = newTime.format(dtf)
+            return newTimeString
+        }
         binding.apply {
             setTimeBtn.setOnClickListener {
                 val calendar = Calendar.getInstance()
@@ -62,10 +72,17 @@ class WriteFragment private constructor() : Fragment() {
                 val timePickerDialog = TimePickerDialog(
                     requireContext(),
                     { /*timePicker: TimePicker?*/_, hour1: Int, minute1: Int ->
-                        if(minute1 < 10)
-                            tvTime.text = "$hour1:0$minute1"
-                        else
-                            tvTime.text = "$hour1:$minute1"
+                        val timeString = StringBuilder()
+                        if (hour1 < 10) {
+                            timeString.append("0")
+                        }
+                        timeString.append(hour1)
+                        timeString.append(":")
+                        if (minute1 < 10) {
+                            timeString.append("0")
+                        }
+                        timeString.append(minute1)
+                        tvTime.text = timeString.toString()
                     },
                     hour,
                     minute,
@@ -100,37 +117,40 @@ class WriteFragment private constructor() : Fragment() {
         }
         viewModel = ViewModelProvider(this).get(WriteViewModel::class.java)
         binding.btnSetWrite.setOnClickListener {
-            if (TextUtils.isEmpty(binding.tvTime.text)) {
-                Toast.makeText(requireContext(), "Time empty!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            } else if (TextUtils.isEmpty(binding.tvDate.text)) {
+            val times = mutableListOf<String>()
+            var timeElement = binding.tvTime.text.toString()
+            for (i in 0..10) {
+                times.add(timeElement)
+                timeElement = changeTimeByHalfHour(timeElement)
+            }
+            if (TextUtils.isEmpty(binding.tvDate.text)) {
                 Toast.makeText(requireContext(), "Date empty!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }else if(binding.tvTime.text.take(2).toString() <= "7" && binding.tvTime.text.take(2).toString() >= "18" ){
-                Toast.makeText(requireContext(), "Set hour 7-18!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             else {
                 if (write == null) {
-                    write = Write()
+                    for (timeElement in times) {
+                        write = Write()
+                        write?.apply {
+                            time = timeElement
+                            date = binding.tvDate.text.toString()
+                            enable = binding.enabledCheck.isChecked
+                        }
+                        viewModel.newWrite(doctorID!!, write!!)
+                    }
+
+                } else {
                     write?.apply {
                         time = binding.tvTime.text.toString()
                         date = binding.tvDate.text.toString()
                         enable = binding.enabledCheck.isChecked
                     }
-                    viewModel.newWrite(doctorID!!,write!!)
-                }
-                else {
-                    write?.apply {
-                        time = binding.tvTime.text.toString()
-                        date = binding.tvDate.text.toString()
-                        enable = binding.enabledCheck.isChecked
-                    }
-                    viewModel.editWrite(doctorID!!,write!!)
+                    viewModel.editWrite(doctorID!!, write!!)
                 }
                 Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
+
         }
 
 
