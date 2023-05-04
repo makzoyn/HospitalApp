@@ -103,7 +103,7 @@ class HospitalFragment : Fragment() {
     private fun showDeleteDialog(hospital: Hospital){
         val builder = AlertDialog.Builder(requireContext())
         builder.setCancelable(true)
-        builder.setMessage("")
+        builder.setMessage("Вы хотите удалить больницу?")
         builder.setPositiveButton("Подтверждаю") {_, _ ->
             viewModel.deleteHospital(hospital.id)
         }

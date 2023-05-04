@@ -15,8 +15,8 @@ class HospitalViewModel : ViewModel() {
             hospitalList.postValue(it)
         }
     }
-    fun newHospital(name: String) =
-        HospitalRepository.get().newHospital(name)
+//    fun newHospital(name: String) =
+//        HospitalRepository.get().newHospital(name)
     fun deleteHospital(hospitalID: UUID) =
         HospitalRepository.get().deleteHospital(hospitalID)
     fun editHospital(hospitalID: UUID, hospital: Hospital) =

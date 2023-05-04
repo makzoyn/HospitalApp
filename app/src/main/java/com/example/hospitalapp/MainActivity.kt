@@ -134,8 +134,6 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
-
-
     override fun showClientFragment(writeID: UUID, _client: Client?) {
         supportFragmentManager
             .beginTransaction()

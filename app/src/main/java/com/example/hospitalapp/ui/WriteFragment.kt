@@ -50,12 +50,7 @@ class WriteFragment private constructor() : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fun changeTimeByHalfHour(timeString: String): String {
-            val dtf = DateTimeFormatter.ofPattern("HH:mm")
-            val time = LocalTime.parse(timeString, dtf)
-            val newTime = time.plusMinutes(30)
-            return newTime.format(dtf)
-        }
+
         binding.apply {
             setTimeBtn.setOnClickListener {
                 val calendar = Calendar.getInstance()
@@ -130,6 +125,7 @@ class WriteFragment private constructor() : Fragment() {
                         write?.apply {
                             time = timeElement
                             date = binding.tvDate.text.toString()
+                            enable = binding.enabledCheck.isChecked
                         }
                         viewModel.newWrite(doctorID, write!!)
                     }
@@ -145,5 +141,11 @@ class WriteFragment private constructor() : Fragment() {
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
+    }
+    private fun changeTimeByHalfHour(timeString: String): String {
+        val dtf = DateTimeFormatter.ofPattern("HH:mm")
+        val time = LocalTime.parse(timeString, dtf)
+        val newTime = time.plusMinutes(30)
+        return newTime.format(dtf)
     }
 }

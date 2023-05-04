@@ -84,7 +84,6 @@ class DoctorFragment : Fragment() {
         binding.tabDoctor.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tabPosition = tab?.position!!
-
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tabPosition = tab?.position!!
@@ -178,29 +177,7 @@ class DoctorFragment : Fragment() {
         val dialog = builder.create()
         dialog.show()
     }
-    /*
-    private fun showEditTabDialog(tab: TabLayout.Tab){
-        val hospitalList = HospitalRepository.get().hospitalList.value
-        val hospital = hospitalList?.find { it.id == getHospitalID }
-        val doctor = hospital?.doctors?.find {it.id == getHospitalID}
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setCancelable(true)
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.name_input, null)
-        builder.setView(dialogView)
-        val nameInput = dialogView.findViewById(R.id.editName) as EditText
-        val tvInfo = dialogView.findViewById(R.id.tvInfo) as TextView
-        builder.setTitle("Укажите значение")
-        tvInfo.text = getString(R.string.input_doctor)
-        builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
 
-
-            viewModel.editDoctor(getHospitalID)
-            adapter.notifyDataSetChanged()
-        }
-        builder.setNegativeButton(getString(R.string.cancel), null)
-        val alert = builder.create()
-        alert.show()
-    }*/
 
     private inner class DoctorPageAdapter(fa: FragmentActivity, private val hospital: Hospital) :
         FragmentStateAdapter(fa) {
@@ -216,8 +193,6 @@ class DoctorFragment : Fragment() {
     interface Callbacks {
         fun setTitle(_title: String)
         fun showWrite(doctorID: UUID, _write: Write? = null)
-
-
     }
 
     private var callbacks: Callbacks? = null

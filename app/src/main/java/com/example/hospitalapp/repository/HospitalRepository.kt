@@ -30,12 +30,7 @@ class HospitalRepository private constructor() {
 
     fun newHospital(name: String) {
         val hospital = Hospital(name = name)
-        val list: MutableList<Hospital>
-        if (hospitalList.value != null) {
-            list = (hospitalList.value as ArrayList<Hospital>)
-        } else {
-            list = ArrayList<Hospital>()
-        }
+        val list: MutableList<Hospital> = hospitalList.value?.toMutableList() ?: mutableListOf()
         list.add(hospital)
         hospitalList.postValue(list)
     }
@@ -114,7 +109,7 @@ class HospitalRepository private constructor() {
     }
 
     fun deleteHospital(hospitalID: UUID) {
-        val h = hospitalList.value ?: return
+        val h =  hospitalList.value ?: return
         val hospital = h.find { it.id == hospitalID } ?: return
         val list = h as ArrayList<Hospital>
         list.remove(hospital)
