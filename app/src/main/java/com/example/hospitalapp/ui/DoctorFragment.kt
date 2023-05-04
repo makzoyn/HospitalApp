@@ -126,6 +126,7 @@ class DoctorFragment : Fragment() {
         val nameInput = dialogView.findViewById(R.id.editName) as EditText
         val tvInfo = dialogView.findViewById(R.id.tvInfo) as TextView
         builder.setTitle("Укажите значение")
+        nameInput.setText(doctor.name)
         tvInfo.text = getString(R.string.input_doctor)
         builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
             doctor.apply { name = nameInput.text.toString() }
