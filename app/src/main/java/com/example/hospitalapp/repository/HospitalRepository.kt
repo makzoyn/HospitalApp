@@ -56,6 +56,7 @@ class HospitalRepository private constructor() {
         hospitalList.postValue(h)
     }
 
+
     fun newWrite(doctorID: UUID, write: Write) {
         val h = hospitalList.value ?: return
         val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
@@ -89,7 +90,15 @@ class HospitalRepository private constructor() {
         hospitalList.postValue(h)
     }
 
-
+    fun deleteDoctor(hospitalID: UUID, doctor: Doctor) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.id == hospitalID }
+        if(hospital?.doctors?.isEmpty()==true) return
+        val list = hospital?.doctors as ArrayList<Doctor>
+        list.remove(doctor)
+        hospital.doctors = list
+        hospitalList.postValue(h)
+    }
     fun deleteWrite(doctorID: UUID, write: Write) {
         val h = hospitalList.value ?: return
         val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
@@ -108,8 +117,6 @@ class HospitalRepository private constructor() {
         list.remove(hospital)
         hospitalList.value = list
         hospitalList.postValue(h)
-
-
     }
 
     fun editHospital(hospitalID: UUID, hospital: Hospital) {
@@ -151,14 +158,6 @@ class HospitalRepository private constructor() {
         }
     }
 
-//    fun loadHospital() {
-//        val context = HospitalAppApplication.applicationContext()
-//        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-//        val s = sharedPreferences.getString("hospital", null)
-//        if (s.isNullOrBlank()) return
-//        val h = Gson().fromJson(s, hospitalList.value?.javaClass)
-//        hospitalList.postValue()
-//    }
 
     fun loadHospital() {
         val context = HospitalAppApplication.applicationContext()

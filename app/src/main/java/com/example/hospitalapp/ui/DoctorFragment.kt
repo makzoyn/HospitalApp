@@ -1,5 +1,6 @@
 package com.example.hospitalapp.ui
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hospitalapp.R
+import com.example.hospitalapp.data.Doctor
 import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.databinding.FragmentDoctorBinding
@@ -64,6 +66,7 @@ class DoctorFragment : Fragment() {
     var tabPosition = 0
 
     private fun updateUI(hospital: Hospital) {
+
         binding.tabDoctor.clearOnTabSelectedListeners()
         binding.tabDoctor.removeAllTabs()
 
@@ -85,7 +88,6 @@ class DoctorFragment : Fragment() {
                 tabPosition = tab?.position!!
 
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tabPosition = tab?.position!!
             }
@@ -106,16 +108,30 @@ class DoctorFragment : Fragment() {
                 }
                 View.VISIBLE
             }
-//        val tabLayout = binding.tabDoctor
-//        for (i in 0 until tabLayout.tabCount) {
-//            val tab = tabLayout.getTabAt(i)
-//            val tabView = tab?.view
-//            tabView?.setOnLongClickListener {
-//                showTabOptionsDialog(tab)
-//                true
-//            }
-//        }
+        fun showDeleteDialog(hospitalID: UUID, doctor: Doctor){
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setCancelable(true)
+            builder.setMessage("")
+            builder.setPositiveButton("Подтверждаю") {_, _ ->
+                viewModel.deleteDoctor(hospitalID, doctor)
+            }
+            builder.setNegativeButton("Отмена", null)
+            val alert = builder.create()
+            alert.show()
+        }
+        val tabLayout = binding.tabDoctor
+        for (i in 0 until tabLayout.tabCount) {
+            val tab = tabLayout.getTabAt(i)
+            val tabView = tab?.view
+            tabView?.setOnLongClickListener {
+                val doctor = hospital.doctors?.get(tab.position)
+                showDeleteDialog(hospital.id, doctor!!)
+                true
+            }
+        }
+
     }
+
 
    /* private fun showTabOptionsDialog(tab: TabLayout.Tab) {
         // Создаем массив с названиями опций
