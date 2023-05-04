@@ -69,6 +69,7 @@ class ClientFragment : Fragment() {
                 tvMiddleName.text = client!!.middleName
                 tvLastName.text = client!!.lastName
                 tvReason.text = client!!.reason
+                cardCheck.isChecked = client!!.haveACard
                 cardCheck.isClickable = false
                 setClientBtn.visibility = View.GONE
                 vsDescription.visibility = View.VISIBLE
@@ -93,11 +94,46 @@ class ClientFragment : Fragment() {
                 tvLastName.text = client!!.lastName
                 tvReason.text = client!!.reason
                 tvDescription.text = client!!.description
+                cardCheck.isChecked = client!!.haveACard
                 cardCheck.isClickable = false
                 setClientBtn.visibility = View.GONE
+                deleteClientBtn.visibility = View.VISIBLE
                 editClientBtn.visibility = View.VISIBLE
+                deleteClientBtn.setOnClickListener {
+                    viewModel.deleteClient(writeID)
+                    Toast.makeText(requireContext(), "Successfully deleted!", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
                 editClientBtn.setOnClickListener {
-                    
+                    vsFirstName.showNext()
+                    vsMiddleName.showNext()
+                    vsLastName.showNext()
+                    vsReason.showNext()
+                    vsDescription.visibility = View.VISIBLE
+                    vsDescription.showNext()
+                    etFirstName.setText(client!!.firstName)
+                    etMiddleName.setText(client!!.middleName)
+                    etLastName.setText(client!!.lastName)
+                    etReason.setText(client!!.reason)
+                    etDescription.setText(client!!.description)
+                    cardCheck.isChecked = client!!.haveACard
+                    cardCheck.isClickable = true
+                    setClientBtn.visibility = View.VISIBLE
+                    deleteClientBtn.visibility = View.GONE
+                    editClientBtn.visibility = View.GONE
+                }
+                binding.setClientBtn.setOnClickListener {
+                    client?.apply {
+                        firstName = binding.etFirstName.text.toString()
+                        middleName = binding.etMiddleName.text.toString()
+                        lastName = binding.etLastName.text.toString()
+                        reason = binding.etReason.text.toString()
+                        haveACard = binding.cardCheck.isChecked
+                        description = binding.etDescription.text.toString()
+                    }
+                    viewModel.editClient(writeID, client!!)
+                    Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
         }

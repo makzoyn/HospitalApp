@@ -3,26 +3,24 @@ package com.example.hospitalapp.ui
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Doctor
 import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.databinding.FragmentDoctorBinding
-import com.example.hospitalapp.repository.HospitalRepository
 import com.example.hospitalapp.ui.viewmodels.DoctorViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.util.GregorianCalendar
 import java.util.UUID
 
 const val DOCTOR_TAG = "DoctorFragment"
@@ -222,7 +220,7 @@ class DoctorFragment : Fragment() {
 
     }
 
-    var callbacks: Callbacks? = null
+    private var callbacks: Callbacks? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

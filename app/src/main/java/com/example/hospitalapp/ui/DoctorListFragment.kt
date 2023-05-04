@@ -81,7 +81,7 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
             itemView.setOnClickListener(this)
         }
         override fun onClick(v: View?) {
-            callbacks?.showClientFragment(write.id, write.clients?.get(0))
+            callbacks?.showClientFragment(write.id, write.client)
         }
 
 

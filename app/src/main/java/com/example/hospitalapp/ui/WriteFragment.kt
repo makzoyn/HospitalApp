@@ -1,7 +1,6 @@
 package com.example.hospitalapp.ui
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.lifecycle.ViewModelProvider
@@ -11,18 +10,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TimePicker
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.databinding.FragmentWriteBinding
 import com.example.hospitalapp.ui.viewmodels.WriteViewModel
-import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
-import java.util.GregorianCalendar
 import java.util.UUID
 
 const val WRITE_TAG = "WriteFragment"
@@ -60,8 +54,7 @@ class WriteFragment private constructor() : Fragment() {
             val dtf = DateTimeFormatter.ofPattern("HH:mm")
             val time = LocalTime.parse(timeString, dtf)
             val newTime = time.plusMinutes(30)
-            val newTimeString = newTime.format(dtf)
-            return newTimeString
+            return newTime.format(dtf)
         }
         binding.apply {
             setTimeBtn.setOnClickListener {
@@ -114,7 +107,7 @@ class WriteFragment private constructor() : Fragment() {
                 enabledCheck.isChecked = write!!.enable
             }
         }
-        viewModel = ViewModelProvider(this).get(WriteViewModel::class.java)
+        viewModel = ViewModelProvider(this)[WriteViewModel::class.java]
         binding.btnSetWrite.setOnClickListener {
             val times = mutableListOf<String>()
             var timeElement = binding.tvTime.text.toString()
@@ -138,7 +131,7 @@ class WriteFragment private constructor() : Fragment() {
                             time = timeElement
                             date = binding.tvDate.text.toString()
                         }
-                        viewModel.newWrite(doctorID!!, write!!)
+                        viewModel.newWrite(doctorID, write!!)
                     }
                 } else {
                     write?.apply {
@@ -146,7 +139,7 @@ class WriteFragment private constructor() : Fragment() {
                         date = binding.tvDate.text.toString()
                         enable = binding.enabledCheck.isChecked
                     }
-                    viewModel.editWrite(doctorID!!, write!!)
+                    viewModel.editWrite(doctorID, write!!)
                 }
 
                 Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()

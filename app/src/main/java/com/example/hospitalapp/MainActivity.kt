@@ -22,10 +22,8 @@ import com.example.hospitalapp.ui.DoctorFragment
 import com.example.hospitalapp.ui.DoctorListFragment
 import com.example.hospitalapp.ui.HOSPITAL_TAG
 import com.example.hospitalapp.ui.HospitalFragment
-import com.example.hospitalapp.ui.WRITE_LIST_TAG
 import com.example.hospitalapp.ui.WRITE_TAG
 import com.example.hospitalapp.ui.WriteFragment
-import com.example.hospitalapp.ui.WriteListFragment
 import java.util.UUID
 
 class MainActivity : AppCompatActivity(),
@@ -66,7 +64,6 @@ class MainActivity : AppCompatActivity(),
         return when (item.itemId) {
             R.id.myNewHospital -> {
                 val myFragment = supportFragmentManager.findFragmentByTag(DOCTOR_TAG)
-                val writeListFragment = supportFragmentManager.findFragmentByTag(WRITE_LIST_TAG)
                 if(myFragment == null ){
                     showNameInputDialog(0)
                 }

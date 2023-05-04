@@ -79,14 +79,7 @@ class HospitalRepository private constructor() {
         val doctor =
             hospital.doctors?.find { it.writes?.find { it.id == writeID } != null } ?: return
         val write = doctor.writes?.find { it.id == writeID } ?: return
-
-        val list: ArrayList<Client> = if ((write.clients?.isEmpty() ?: true) == true)
-            ArrayList()
-        else {
-            write.clients as ArrayList<Client>
-        }
-        list.add(client)
-        write.clients = list
+        write.client = client
         hospitalList.postValue(h)
     }
 
@@ -107,6 +100,16 @@ class HospitalRepository private constructor() {
         val list = doctor.writes as ArrayList<Write>
         list.remove(write)
         doctor.writes = list
+        hospitalList.postValue(h)
+    }
+
+    fun deleteClient(writeID : UUID) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.writes?.find { it.id == writeID } != null } != null } ?: return
+        val doctor = hospital.doctors?.find { it.writes?.find { it.id == writeID } != null} ?: return
+        val write = doctor.writes?.find { it.id == writeID }
+        if(write!!.client == null) return
+        write.client = null
         hospitalList.postValue(h)
     }
 
@@ -135,6 +138,15 @@ class HospitalRepository private constructor() {
         val i = list.indexOf(_doctor)
         list.remove(_doctor)
         list.add(i, doctor)
+    }
+
+    fun editClient(writeID: UUID, client: Client){
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.writes?.find { it.id == writeID } != null } != null } ?: return
+        val doctor = hospital.doctors?.find { it.writes?.find { it.id == writeID } != null} ?: return
+        val write = doctor.writes?.find { it.id == writeID }
+        write?.client = client
+        hospitalList.postValue(h)
     }
 
     fun editWrite(doctorID: UUID, write: Write) {

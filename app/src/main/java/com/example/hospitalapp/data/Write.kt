@@ -10,5 +10,5 @@ data class Write(
     var enable: Boolean = true
 ) {
     constructor() : this(UUID.randomUUID())
-    var clients: MutableList<Client>? = null
+    var client : Client? = null
 }
