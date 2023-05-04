@@ -104,12 +104,6 @@ class WriteFragment private constructor() : Fragment() {
         }
         viewModel = ViewModelProvider(this)[WriteViewModel::class.java]
         binding.btnSetWrite.setOnClickListener {
-            val times = mutableListOf<String>()
-            var timeElement = binding.tvTime.text.toString()
-            for (i in 0..10) {
-                times.add(timeElement)
-                timeElement = changeTimeByHalfHour(timeElement)
-            }
             if (TextUtils.isEmpty(binding.tvDate.text)) {
                 Toast.makeText(requireContext(), "Date empty!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -119,6 +113,12 @@ class WriteFragment private constructor() : Fragment() {
                 return@setOnClickListener
             }
             else {
+                val times = mutableListOf<String>()
+                var timeElement = binding.tvTime.text.toString()
+                for (i in 0..10) {
+                    times.add(timeElement)
+                    timeElement = changeTimeByHalfHour(timeElement)
+                }
                 if (write == null) {
                     for (timeElement in times) {
                         write = Write()
