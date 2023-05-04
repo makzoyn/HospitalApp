@@ -53,7 +53,6 @@ class WriteFragment private constructor() : Fragment() {
         return binding.root
     }
 
-
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -127,6 +126,10 @@ class WriteFragment private constructor() : Fragment() {
                 Toast.makeText(requireContext(), "Date empty!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+            else if(TextUtils.isEmpty(binding.tvTime.text)) {
+                Toast.makeText(requireContext(), "Time empty!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             else {
                 if (write == null) {
                     for (timeElement in times) {
@@ -134,11 +137,9 @@ class WriteFragment private constructor() : Fragment() {
                         write?.apply {
                             time = timeElement
                             date = binding.tvDate.text.toString()
-                            enable = binding.enabledCheck.isChecked
                         }
                         viewModel.newWrite(doctorID!!, write!!)
                     }
-
                 } else {
                     write?.apply {
                         time = binding.tvTime.text.toString()
@@ -147,12 +148,10 @@ class WriteFragment private constructor() : Fragment() {
                     }
                     viewModel.editWrite(doctorID!!, write!!)
                 }
+
                 Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-
         }
-
-
     }
 }

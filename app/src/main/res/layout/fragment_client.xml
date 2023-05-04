@@ -6,92 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".ui.ClientFragment">
 
-    <EditText
-        android:id="@+id/etFirstName"
+    <ViewSwitcher
+        android:id="@+id/vsFirstName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNameTitle">
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/tvFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </ViewSwitcher>
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvNameTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Введите имя"
+        android:text="Имя"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvSecondName"
+        android:id="@+id/tvSecondNameTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Введите фамилию"
+        android:text="Фамилия"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
+        app:layout_constraintTop_toBottomOf="@+id/vsFirstName" />
 
-    <EditText
-        android:id="@+id/etMiddleName"
+    <ViewSwitcher
+        android:id="@+id/vsMiddleName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSecondName"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSecondNameTitle">
+        <EditText
+            android:id="@+id/etMiddleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/tvMiddleName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </ViewSwitcher>
 
     <TextView
-        android:id="@+id/tvLastName"
+        android:id="@+id/tvLastNameTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Введите отчество"
+        android:text="Отчество"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etMiddleName" />
+        app:layout_constraintTop_toBottomOf="@+id/vsMiddleName" />
 
-    <EditText
-        android:id="@+id/etLastName"
+    <ViewSwitcher
+        android:id="@+id/vsLastName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLastName"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/tvLastNameTitle">
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/tvLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </ViewSwitcher>
 
     <TextView
         android:id="@+id/tvReasonTitle"
@@ -100,27 +139,40 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="Введите причину обращения"
+        android:text="Причина обращения"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etLastName" />
+        app:layout_constraintTop_toBottomOf="@+id/vsLastName" />
 
-    <EditText
-        android:id="@+id/etReason"
+    <ViewSwitcher
+        android:id="@+id/vsReason"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:inputType="text"
-        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvReasonTitle"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/tvReasonTitle">
+        <EditText
+            android:id="@+id/etReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/tvReason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </ViewSwitcher>
 
     <CheckBox
         android:id="@+id/cardCheck"
@@ -134,7 +186,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etReason" />
+        app:layout_constraintTop_toBottomOf="@+id/vsReason" />
 
     <Button
         android:id="@+id/setClientBtn"
@@ -144,29 +196,41 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
         android:text="Записать"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/etDescription"
+    <ViewSwitcher
+        android:id="@+id/vsDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/setClientBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardCheck"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/cardCheck">
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="TextView"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </ViewSwitcher>
 
     <Button
         android:id="@+id/setDescriptionBtn"
@@ -181,5 +245,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <Button
+        android:id="@+id/editClientBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="Редактировать данные"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/deleteClientBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
+        android:text="Удалить клиента"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editClientBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

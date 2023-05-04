@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import com.example.hospitalapp.R
 import com.example.hospitalapp.data.Client
 import com.example.hospitalapp.databinding.FragmentClientBinding
 import com.example.hospitalapp.ui.viewmodels.ClientViewModel
@@ -31,9 +33,7 @@ class ClientFragment : Fragment() {
             return ClientFragment()
         }
     }
-
     private lateinit var viewModel: ClientViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,7 +41,6 @@ class ClientFragment : Fragment() {
         _binding = FragmentClientBinding.inflate(inflater, container, false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(ClientViewModel::class.java)
@@ -56,18 +55,33 @@ class ClientFragment : Fragment() {
                     haveACard = binding.cardCheck.isChecked
                 }
                 viewModel.newClient(writeID, client!!)
-                binding.etFirstName.isEnabled = false
-                binding.etMiddleName.isEnabled = false
-                binding.etLastName.isEnabled = false
-                binding.etReason.isEnabled = false
-                binding.cardCheck.isEnabled = false
-                binding.setClientBtn.visibility = View.GONE
                 Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
+        else if(client?.description==""){
+            binding.apply {
+                vsFirstName.showPrevious()
+                vsMiddleName.showPrevious()
+                vsLastName.showPrevious()
+                vsReason.showPrevious()
+                tvFirstName.text = client!!.firstName
+                tvMiddleName.text = client!!.middleName
+                tvLastName.text = client!!.lastName
+                tvReason.text = client!!.reason
+                cardCheck.isClickable = false
+                setClientBtn.visibility = View.GONE
+                vsDescription.visibility = View.VISIBLE
+                setDescriptionBtn.visibility = View.VISIBLE
+                setDescriptionBtn.setOnClickListener {
+                    client?.description = binding.etDescription.text.toString()
+                    Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        }
         else{
-            binding.etFirstName.setText(client!!.firstName)
+            /*binding.vsFirstName.findViewById<TextView>(R.id.tvFirstName).text = client!!.firstName
             binding.etMiddleName.setText(client!!.middleName)
             binding.etLastName.setText(client!!.lastName)
             binding.etReason.setText(client!!.reason)
@@ -79,11 +93,26 @@ class ClientFragment : Fragment() {
             binding.cardCheck.isEnabled = false
             binding.setClientBtn.visibility = View.GONE
             binding.etDescription.visibility = View.VISIBLE
-            binding.setDescriptionBtn.visibility = View.VISIBLE
-            binding.setDescriptionBtn.setOnClickListener {
-                client?.description = binding.etDescription.text.toString()
-                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+            binding.etDescription.isEnabled = false
+            binding.etDescription.setText(client!!.description)*/
+            binding.apply {
+                vsFirstName.showPrevious()
+                vsMiddleName.showPrevious()
+                vsLastName.showPrevious()
+                vsReason.showPrevious()
+                vsDescription.visibility = View.VISIBLE
+                vsDescription.showPrevious()
+                tvFirstName.text = client!!.firstName
+                tvMiddleName.text = client!!.middleName
+                tvLastName.text = client!!.lastName
+                tvReason.text = client!!.reason
+                tvDescription.text = client!!.description
+                cardCheck.isClickable = false
+                setClientBtn.visibility = View.GONE
+                editClientBtn.visibility = View.VISIBLE
+                editClientBtn.setOnClickListener {
+                    
+                }
             }
         }
     }
