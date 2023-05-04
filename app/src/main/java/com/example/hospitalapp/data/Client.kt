@@ -9,5 +9,6 @@ data class Client(
     var middleName : String="",
     var lastName : String="",
     var reason : String="",
-    var haveACard : Boolean = true
+    var haveACard : Boolean = true,
+    var description: String = ""
 )

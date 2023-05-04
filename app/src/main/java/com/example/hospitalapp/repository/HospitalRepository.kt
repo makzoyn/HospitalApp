@@ -1,9 +1,15 @@
 package com.example.hospitalapp.repository
 
+
+import androidx.core.content.edit
+import androidx.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
+import com.example.hospitalapp.HospitalAppApplication
+import com.example.hospitalapp.data.Client
 import com.example.hospitalapp.data.Doctor
 import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.data.Write
+import com.google.gson.Gson
 import java.util.UUID
 import kotlin.collections.ArrayList
 
@@ -17,6 +23,7 @@ class HospitalRepository private constructor() {
                 INSTANCE = HospitalRepository()
             }
         }
+
         fun get(): HospitalRepository =
             INSTANCE ?: throw IllegalStateException("Репозиторий не инициализирован")
     }
@@ -63,5 +70,105 @@ class HospitalRepository private constructor() {
         hospitalList.postValue(h)
     }
 
+    fun newClient(writeID: UUID, client: Client) {
+        val h = hospitalList.value ?: return
+        val hospital =
+            h.find { it.doctors?.find { it.writes?.find { it.id == writeID } != null } != null }
+                ?: return
+        val doctor =
+            hospital.doctors?.find { it.writes?.find { it.id == writeID } != null } ?: return
+        val write = doctor.writes?.find { it.id == writeID } ?: return
+
+        val list: ArrayList<Client> = if ((write.clients?.isEmpty() ?: true) == true)
+            ArrayList()
+        else {
+            write.clients as ArrayList<Client>
+        }
+        list.add(client)
+        write.clients = list
+        hospitalList.postValue(h)
+    }
+
+
+    fun deleteWrite(doctorID: UUID, write: Write) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
+        val doctor = hospital.doctors?.find { it.id == doctorID }
+        if (doctor!!.writes?.isEmpty() == true) return
+        val list = doctor.writes as ArrayList<Write>
+        list.remove(write)
+        doctor.writes = list
+        hospitalList.postValue(h)
+    }
+
+    fun deleteHospital(hospitalID: UUID) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.id == hospitalID } ?: return
+        val list = h as ArrayList<Hospital>
+        list.remove(hospital)
+        hospitalList.value = list
+        hospitalList.postValue(h)
+
+
+    }
+
+    fun editHospital(hospitalID: UUID, hospital: Hospital) {
+        val h = hospitalList.value ?: return
+        val _hospital = h.find { it.id == hospitalID } ?: return
+        val list = h as ArrayList<Hospital>
+        val i = list.indexOf(_hospital)
+        list.remove(_hospital)
+        list.add(i, hospital)
+    }
+
+    fun editWrite(doctorID: UUID, write: Write) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.id == doctorID } != null } ?: return
+        val doctor = hospital.doctors?.find { it.id == doctorID } ?: return
+        val _write = doctor.writes?.find { it.id == write.id }
+        if (_write == null) {
+            newWrite(doctorID, write)
+            return
+        }
+        val list = doctor.writes as ArrayList<Write>
+        val i = list.indexOf(_write)
+        list.remove(_write)
+        list.add(i, write)
+        doctor.writes = list
+        hospitalList.postValue(h)
+
+    }
+
+    fun saveHospital() {
+        if (hospitalList.value == null) return
+        val h = hospitalList.value!!
+        val s = Gson().toJson(h)
+        val context = HospitalAppApplication.applicationContext()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        sharedPreferences.edit {
+            putString("hospital", s)
+            apply()
+        }
+    }
+
+//    fun loadHospital() {
+//        val context = HospitalAppApplication.applicationContext()
+//        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+//        val s = sharedPreferences.getString("hospital", null)
+//        if (s.isNullOrBlank()) return
+//        val h = Gson().fromJson(s, hospitalList.value?.javaClass)
+//        hospitalList.postValue()
+//    }
+
+    fun loadHospital() {
+        val context = HospitalAppApplication.applicationContext()
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val s = sharedPreferences.getString("hospital", null)
+        if (s.isNullOrBlank()) return
+        val h = Gson().fromJson(s, Array<Hospital>::class.java).toList()
+        hospitalList.postValue(h)
+    }
+
 
 }
+

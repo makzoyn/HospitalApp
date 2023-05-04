@@ -8,4 +8,6 @@ import java.util.UUID
 class WriteViewModel : ViewModel() {
     fun newWrite(doctorID: UUID, write: Write) =
         HospitalRepository.get().newWrite(doctorID, write)
+    fun editWrite(doctorID: UUID, write: Write) =
+        HospitalRepository.get().editWrite(doctorID, write)
 }

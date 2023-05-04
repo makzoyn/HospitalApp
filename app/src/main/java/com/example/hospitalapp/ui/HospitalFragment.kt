@@ -1,5 +1,7 @@
 package com.example.hospitalapp.ui
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +33,7 @@ class HospitalFragment : Fragment() {
     private var adapter: HospitalListAdapter = HospitalListAdapter(emptyList())
 
     companion object {
+
         fun newInstance() = HospitalFragment()
 
     }
@@ -60,6 +65,12 @@ class HospitalFragment : Fragment() {
         fun bind(hospital: Hospital){
             this.hospital = hospital
             itemView.findViewById<TextView>(R.id.tvHospitalName).text = hospital.name
+            itemView.findViewById<ImageButton>(R.id.deleteHsopitalBtn).setOnClickListener {
+                showDeleteDialog(hospital)
+            }
+            itemView.findViewById<ImageButton>(R.id.editHospitalBtn).setOnClickListener {
+                showEditDialog(hospital)
+            }
         }
 
         init{
@@ -69,6 +80,36 @@ class HospitalFragment : Fragment() {
         override fun onClick (v: View?){
             callbacks?.showDoctorFragment(hospital.id)
         }
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showEditDialog(hospital: Hospital){
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
+        builder.setCancelable(true)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.name_input, null)
+        builder.setView(dialogView)
+        val nameInput = dialogView.findViewById(R.id.editName) as EditText
+        val tvInfo = dialogView.findViewById(R.id.tvInfo) as TextView
+        builder.setTitle("Укажите значение")
+        tvInfo.text = getString(R.string.input_hospital)
+        builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
+            hospital.apply { name = nameInput.text.toString() }
+            viewModel.editHospital(hospital.id, hospital)
+            adapter.notifyDataSetChanged()
+        }
+        builder.setNegativeButton(getString(R.string.cancel), null)
+        val alert = builder.create()
+        alert.show()
+    }
+    private fun showDeleteDialog(hospital: Hospital){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(true)
+        builder.setMessage("")
+        builder.setPositiveButton("Подтверждаю") {_, _ ->
+            viewModel.deleteHospital(hospital.id)
+        }
+        builder.setNegativeButton("Отмена", null)
+        val alert = builder.create()
+        alert.show()
     }
 
     private inner class HospitalListAdapter(private val items: List<Hospital>)

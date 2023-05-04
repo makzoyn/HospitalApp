@@ -1,6 +1,5 @@
 package com.example.hospitalapp
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,26 +8,31 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.TimePicker
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentTransaction
+import com.example.hospitalapp.data.Client
+import com.example.hospitalapp.data.Hospital
 import com.example.hospitalapp.data.Write
 import com.example.hospitalapp.repository.HospitalRepository
+import com.example.hospitalapp.ui.CLIENT_TAG
+import com.example.hospitalapp.ui.ClientFragment
 import com.example.hospitalapp.ui.DOCTOR_TAG
 import com.example.hospitalapp.ui.DoctorFragment
 import com.example.hospitalapp.ui.DoctorListFragment
 import com.example.hospitalapp.ui.HOSPITAL_TAG
 import com.example.hospitalapp.ui.HospitalFragment
+import com.example.hospitalapp.ui.WRITE_LIST_TAG
 import com.example.hospitalapp.ui.WRITE_TAG
 import com.example.hospitalapp.ui.WriteFragment
+import com.example.hospitalapp.ui.WriteListFragment
 import java.util.UUID
 
 class MainActivity : AppCompatActivity(),
     HospitalFragment.Callbacks,
     DoctorFragment.Callbacks,
     DoctorListFragment.Callbacks{
-    private var myNewFaculty: MenuItem? = null
+    private var myNewHospital: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +58,7 @@ class MainActivity : AppCompatActivity(),
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.main_menu, menu)
-        myNewFaculty = menu?.findItem(R.id.myNewHospital)
+        myNewHospital = menu?.findItem(R.id.myNewHospital)
         return true
     }
 
@@ -62,13 +66,15 @@ class MainActivity : AppCompatActivity(),
         return when (item.itemId) {
             R.id.myNewHospital -> {
                 val myFragment = supportFragmentManager.findFragmentByTag(DOCTOR_TAG)
+                val writeListFragment = supportFragmentManager.findFragmentByTag(WRITE_LIST_TAG)
                 if(myFragment == null ){
-                    showNameInputDialog(0);
+                    showNameInputDialog(0)
                 }
                 else {
                     showNameInputDialog(1)
                 }
                 true
+
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -101,6 +107,7 @@ class MainActivity : AppCompatActivity(),
                     }
                 }
             }
+
         }
         builder.setNegativeButton(getString(R.string.cancel), null)
         val alert = builder.create()
@@ -112,6 +119,7 @@ class MainActivity : AppCompatActivity(),
         title = _title
     }
 
+
     override fun showWrite(doctorID: UUID, _write: Write?) {
         supportFragmentManager
             .beginTransaction()
@@ -120,8 +128,6 @@ class MainActivity : AppCompatActivity(),
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
-
-
     override fun showDoctorFragment(hospitalID: UUID) {
         supportFragmentManager
             .beginTransaction()
@@ -130,6 +136,26 @@ class MainActivity : AppCompatActivity(),
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             .commit()
     }
+
+
+
+    override fun showClientFragment(writeID: UUID, _client: Client?) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.mainFragment, ClientFragment.newInstance(writeID, _client), CLIENT_TAG)
+            .addToBackStack(null)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit()
+    }
+    override fun onStop() {
+        HospitalRepository.get().saveHospital()
+        super.onStop()
+    }
+    override fun onStart() {
+        super.onStart()
+        HospitalRepository.get().loadHospital()
+    }
+
 
 
 }
