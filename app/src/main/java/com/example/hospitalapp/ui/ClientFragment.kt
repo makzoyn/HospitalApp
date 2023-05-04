@@ -47,16 +47,31 @@ class ClientFragment : Fragment() {
         if (client == null) {
             client = Client()
             binding.setClientBtn.setOnClickListener {
-                client?.apply {
-                    firstName = binding.etFirstName.text.toString()
-                    middleName = binding.etMiddleName.text.toString()
-                    lastName = binding.etLastName.text.toString()
-                    reason = binding.etReason.text.toString()
-                    haveACard = binding.cardCheck.isChecked
+                if(binding.etFirstName.text.toString() == "") {
+                    binding.etFirstName.error = "Введите имя"
                 }
-                viewModel.newClient(writeID, client!!)
-                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                else if(binding.etMiddleName.text.toString() == ""){
+                    binding.etMiddleName.error = "Введите фамилию"
+                }
+                else if(binding.etLastName.text.toString() == ""){
+                    binding.etLastName.error = "Введите отчество"
+                }
+                else if(binding.etReason.text.toString() == ""){
+                    binding.etReason.error = "Введите причину обращения"
+                }
+                else {
+                    client?.apply {
+                        firstName = binding.etFirstName.text.toString()
+                        middleName = binding.etMiddleName.text.toString()
+                        lastName = binding.etLastName.text.toString()
+                        reason = binding.etReason.text.toString()
+                        haveACard = binding.cardCheck.isChecked
+                    }
+                    viewModel.newClient(writeID, client!!)
+                    Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT)
+                        .show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
         else if(client?.description==""){
@@ -75,9 +90,16 @@ class ClientFragment : Fragment() {
                 vsDescription.visibility = View.VISIBLE
                 setDescriptionBtn.visibility = View.VISIBLE
                 setDescriptionBtn.setOnClickListener {
-                    client?.description = binding.etDescription.text.toString()
-                    Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    if(binding.etDescription.text.toString() != "") {
+                        client?.description = binding.etDescription.text.toString()
+                        Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
+                    else {
+                        binding.etDescription.error = "Введите описание"
+                    }
+
+
                 }
             }
         }
@@ -123,17 +145,31 @@ class ClientFragment : Fragment() {
                     editClientBtn.visibility = View.GONE
                 }
                 binding.setClientBtn.setOnClickListener {
-                    client?.apply {
-                        firstName = binding.etFirstName.text.toString()
-                        middleName = binding.etMiddleName.text.toString()
-                        lastName = binding.etLastName.text.toString()
-                        reason = binding.etReason.text.toString()
-                        haveACard = binding.cardCheck.isChecked
-                        description = binding.etDescription.text.toString()
+                    if(binding.etFirstName.text.toString() == "") {
+                        binding.etFirstName.error = "Введите имя"
                     }
-                    viewModel.editClient(writeID, client!!)
-                    Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
-                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                    else if(binding.etMiddleName.text.toString() == ""){
+                        binding.etMiddleName.error = "Введите фамилию"
+                    }
+                    else if(binding.etLastName.text.toString() == ""){
+                        binding.etLastName.error = "Введите отчество"
+                    }
+                    else if(binding.etReason.text.toString() == ""){
+                        binding.etReason.error = "Введите причину обращения"
+                    }
+                    else {
+                        client?.apply {
+                            firstName = binding.etFirstName.text.toString()
+                            middleName = binding.etMiddleName.text.toString()
+                            lastName = binding.etLastName.text.toString()
+                            reason = binding.etReason.text.toString()
+                            haveACard = binding.cardCheck.isChecked
+                        }
+                        viewModel.newClient(writeID, client!!)
+                        Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT)
+                            .show()
+                        requireActivity().onBackPressedDispatcher.onBackPressed()
+                    }
                 }
             }
         }

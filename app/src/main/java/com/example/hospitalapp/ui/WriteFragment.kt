@@ -134,9 +134,8 @@ class WriteFragment private constructor() : Fragment() {
                         viewModel.newWrite(doctorID, write!!)
                     }
                 } else {
+                    binding.setDateBtn.isClickable = false
                     write?.apply {
-                        time = binding.tvTime.text.toString()
-                        date = binding.tvDate.text.toString()
                         enable = binding.enabledCheck.isChecked
                     }
                     viewModel.editWrite(doctorID, write!!)
