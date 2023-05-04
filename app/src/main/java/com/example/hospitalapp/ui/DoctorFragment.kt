@@ -97,8 +97,6 @@ class DoctorFragment : Fragment() {
             }
 
         })
-
-
         binding.faAddWriteBtn.visibility =
             if ((hospital?.doctors?.size ?: 0) == 0)
                 View.GONE
@@ -108,32 +106,53 @@ class DoctorFragment : Fragment() {
                 }
                 View.VISIBLE
             }
-        fun showDeleteDialog(hospitalID: UUID, doctor: Doctor){
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setCancelable(true)
-            builder.setMessage("")
-            builder.setPositiveButton("Подтверждаю") {_, _ ->
-                viewModel.deleteDoctor(hospitalID, doctor)
-            }
-            builder.setNegativeButton("Отмена", null)
-            val alert = builder.create()
-            alert.show()
-        }
+
         val tabLayout = binding.tabDoctor
         for (i in 0 until tabLayout.tabCount) {
             val tab = tabLayout.getTabAt(i)
             val tabView = tab?.view
             tabView?.setOnLongClickListener {
                 val doctor = hospital.doctors?.get(tab.position)
-                showDeleteDialog(hospital.id, doctor!!)
+                if (doctor != null) {
+                    showTabOptionsDialog(doctor)
+                }
                 true
             }
         }
-
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    private fun showEditDialog(doctorID: UUID, doctor: Doctor){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(true)
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.name_input, null)
+        builder.setView(dialogView)
+        val nameInput = dialogView.findViewById(R.id.editName) as EditText
+        val tvInfo = dialogView.findViewById(R.id.tvInfo) as TextView
+        builder.setTitle("Укажите значение")
+        tvInfo.text = getString(R.string.input_doctor)
+        builder.setPositiveButton(getString(R.string.commit)) { _, _ ->
+            doctor.apply { name = nameInput.text.toString() }
+            viewModel.editDoctor(doctorID, doctor)
+            binding.vpDoctor.adapter?.notifyDataSetChanged()
+        }
+        builder.setNegativeButton(getString(R.string.cancel), null)
+        val alert = builder.create()
+        alert.show()
+    }
+    private fun showDeleteDialog(hospitalID: UUID, doctor: Doctor){
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setCancelable(true)
+        builder.setMessage("Вы хотите удалить специальность?")
+        builder.setPositiveButton("Подтверждаю") {_, _ ->
+            viewModel.deleteDoctor(hospitalID, doctor)
+        }
+        builder.setNegativeButton("Отмена", null)
+        val alert = builder.create()
+        alert.show()
     }
 
 
-   /* private fun showTabOptionsDialog(tab: TabLayout.Tab) {
+   private fun showTabOptionsDialog(doctor: Doctor) {
         // Создаем массив с названиями опций
         val options = arrayOf("Edit", "Delete")
         // Создаем объект AlertDialog.Builder
@@ -148,12 +167,12 @@ class DoctorFragment : Fragment() {
                     // Выбрана опция Edit /
                     // / Здесь вы можете реализовать логику редактирования вкладки
                     // Например, показать другой диалог с полями для ввода названия и иконки вкладки
-                    showEditTabDialog(tab)
+                    showEditDialog(doctor.id, doctor)
                 }
 
                 1 -> { // Выбрана опция Delete // Здесь вы можете реализовать логику удаления вкладки
                     // Например, вызвать метод TabLayout.removeTab(tab)
-                    binding.tabDoctor.removeTab(tab)
+                    showDeleteDialog(hospitalID, doctor)
                 }
             }
         }
@@ -161,6 +180,7 @@ class DoctorFragment : Fragment() {
         val dialog = builder.create()
         dialog.show()
     }
+    /*
     private fun showEditTabDialog(tab: TabLayout.Tab){
         val hospitalList = HospitalRepository.get().hospitalList.value
         val hospital = hospitalList?.find { it.id == getHospitalID }

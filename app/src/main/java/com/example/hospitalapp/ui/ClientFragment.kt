@@ -81,20 +81,6 @@ class ClientFragment : Fragment() {
             }
         }
         else{
-            /*binding.vsFirstName.findViewById<TextView>(R.id.tvFirstName).text = client!!.firstName
-            binding.etMiddleName.setText(client!!.middleName)
-            binding.etLastName.setText(client!!.lastName)
-            binding.etReason.setText(client!!.reason)
-            binding.cardCheck.isChecked = client!!.haveACard
-            binding.etFirstName.isEnabled = false
-            binding.etMiddleName.isEnabled = false
-            binding.etLastName.isEnabled = false
-            binding.etReason.isEnabled = false
-            binding.cardCheck.isEnabled = false
-            binding.setClientBtn.visibility = View.GONE
-            binding.etDescription.visibility = View.VISIBLE
-            binding.etDescription.isEnabled = false
-            binding.etDescription.setText(client!!.description)*/
             binding.apply {
                 vsFirstName.showPrevious()
                 vsMiddleName.showPrevious()

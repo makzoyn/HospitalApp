@@ -21,4 +21,6 @@ class DoctorViewModel : ViewModel() {
 
     fun deleteDoctor(hospitalID: UUID, doctor: Doctor) =
         HospitalRepository.get().deleteDoctor(hospitalID, doctor)
+    fun editDoctor(doctorID: UUID, doctor: Doctor) =
+        HospitalRepository.get().editDoctor(doctorID, doctor)
 }

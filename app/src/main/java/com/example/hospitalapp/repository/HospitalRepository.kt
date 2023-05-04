@@ -127,6 +127,15 @@ class HospitalRepository private constructor() {
         list.remove(_hospital)
         list.add(i, hospital)
     }
+    fun editDoctor(doctorID: UUID, doctor: Doctor) {
+        val h = hospitalList.value ?: return
+        val hospital = h.find { it.doctors?.find { it.id == doctorID } !=null } ?: return
+        val _doctor = hospital.doctors?.find{ it.id == doctorID}
+        val list = hospital.doctors as ArrayList<Doctor>
+        val i = list.indexOf(_doctor)
+        list.remove(_doctor)
+        list.add(i, doctor)
+    }
 
     fun editWrite(doctorID: UUID, write: Write) {
         val h = hospitalList.value ?: return
