@@ -89,6 +89,7 @@ class ClientFragment : Fragment() {
                 setClientBtn.visibility = View.GONE
                 vsDescription.visibility = View.VISIBLE
                 setDescriptionBtn.visibility = View.VISIBLE
+                deleteClientBtn.visibility = View.VISIBLE
                 setDescriptionBtn.setOnClickListener {
                     if(binding.etDescription.text.toString() != "") {
                         client?.description = binding.etDescription.text.toString()
@@ -98,8 +99,11 @@ class ClientFragment : Fragment() {
                     else {
                         binding.etDescription.error = "Введите описание"
                     }
-
-
+                }
+                deleteClientBtn.setOnClickListener {
+                    viewModel.deleteClient(writeID)
+                    Toast.makeText(requireContext(), "Successfully deleted!", Toast.LENGTH_SHORT).show()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
         }
@@ -164,6 +168,7 @@ class ClientFragment : Fragment() {
                             lastName = binding.etLastName.text.toString()
                             reason = binding.etReason.text.toString()
                             haveACard = binding.cardCheck.isChecked
+                            description = binding.etDescription.text.toString()
                         }
                         viewModel.newClient(writeID, client!!)
                         Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT)

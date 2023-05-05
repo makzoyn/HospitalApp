@@ -26,7 +26,7 @@
             android:textColor="@color/black"
             android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/editWriteBtn"
+            app:layout_constraintEnd_toStartOf="@+id/csButtons"
             app:layout_constraintStart_toEndOf="@+id/tvDateTitle"
             app:layout_constraintTop_toBottomOf="@+id/tvElementTime"
             app:layout_constraintVertical_bias="0.0" />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="Date:"
+            android:text="Дата:"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/tvElementDate"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
-            android:text="Time:"
+            android:text="Время:"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/tvElementTime"
@@ -72,33 +72,41 @@
             android:textColor="@color/black"
             android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/editWriteBtn"
+            app:layout_constraintEnd_toStartOf="@+id/csButtons"
             app:layout_constraintStart_toEndOf="@+id/tvTimeTitle"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-        <ImageButton
-            android:id="@+id/editWriteBtn"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/csButtons"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginEnd="8dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/deleteWriteBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvElementTime"
-            app:srcCompat="@drawable/ic_edit"
-            tools:ignore="SpeakableTextPresentCheck" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/deleteWriteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/tvElementDate"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_delete"
-            tools:ignore="SpeakableTextPresentCheck" />
+            <ImageButton
+                android:id="@+id/editWriteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_edit"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:id="@+id/deleteWriteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_delete"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hospitalapp.R
@@ -21,7 +22,7 @@ import com.example.hospitalapp.ui.viewmodels.HospitalViewModel
 import java.util.UUID
 
 const val HOSPITAL_TAG = "HospitalFragment"
-const val HOSPITAL_TITLE = "Hospital"
+const val HOSPITAL_TITLE = "Больницы"
 
 class HospitalFragment : Fragment() {
 
@@ -58,12 +59,14 @@ class HospitalFragment : Fragment() {
         callbacks?.setTitle(HOSPITAL_TITLE)
     }
 
+    private var lastItemView : View? = null
     private inner class HospitalHolder(view: View)
-        : RecyclerView.ViewHolder(view), View.OnClickListener {
+        : RecyclerView.ViewHolder(view), View.OnClickListener, View.OnLongClickListener {
         lateinit var hospital: Hospital
 
         fun bind(hospital: Hospital){
             this.hospital = hospital
+            itemView.findViewById<ConstraintLayout>(R.id.ctButtons).visibility=View.GONE
             itemView.findViewById<TextView>(R.id.tvHospitalName).text = hospital.name
             itemView.findViewById<ImageButton>(R.id.deleteHsopitalBtn).setOnClickListener {
                 showDeleteDialog(hospital)
@@ -75,10 +78,19 @@ class HospitalFragment : Fragment() {
 
         init{
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
 
         override fun onClick (v: View?){
             callbacks?.showDoctorFragment(hospital.id)
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            val cl = itemView.findViewById<ConstraintLayout>(R.id.ctButtons)
+            cl.visibility = View.VISIBLE
+            lastItemView?.findViewById<ConstraintLayout>(R.id.ctButtons)?.visibility=View.GONE
+            lastItemView = if(lastItemView == itemView) null else itemView
+            return true
         }
     }
     @SuppressLint("NotifyDataSetChanged")

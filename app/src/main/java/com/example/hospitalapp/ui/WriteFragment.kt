@@ -105,11 +105,11 @@ class WriteFragment private constructor() : Fragment() {
         viewModel = ViewModelProvider(this)[WriteViewModel::class.java]
         binding.btnSetWrite.setOnClickListener {
             if (TextUtils.isEmpty(binding.tvDate.text)) {
-                Toast.makeText(requireContext(), "Date empty!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Установите дату!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             else if(TextUtils.isEmpty(binding.tvTime.text)) {
-                Toast.makeText(requireContext(), "Time empty!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Установите время!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             else {
@@ -137,7 +137,7 @@ class WriteFragment private constructor() : Fragment() {
                     viewModel.editWrite(doctorID, write!!)
                 }
 
-                Toast.makeText(requireContext(), "Successfully added!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Успешно добавлен!", Toast.LENGTH_SHORT).show()
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }

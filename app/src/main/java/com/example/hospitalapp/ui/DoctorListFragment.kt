@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,8 +45,9 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         binding.rvDoctorList.adapter = DoctorListAdapter(doctor.writes?: emptyList())
         viewModel = ViewModelProvider(this).get(DoctorListViewModel::class.java)
     }
+    private var lastItemView : View? = null
     private inner class DoctorHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnClickListener {
+        View.OnClickListener, View.OnLongClickListener {
         lateinit var write: Write
 
         @SuppressLint("NotifyDataSetChanged")
@@ -53,11 +55,19 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
             this.write = write
             val time = write.time
             val date = write.date
+            itemView.findViewById<ConstraintLayout>(R.id.csButtons).visibility=View.GONE
             itemView.findViewById<TextView>(R.id.tvElementTime).text = time
             itemView.findViewById<TextView>(R.id.tvElementDate).text = date
             if(!write.enable) {
                 itemView.setOnClickListener(null)
                 itemView.setBackgroundColor(Color.LTGRAY)
+                itemView.findViewById<ImageButton>(R.id.deleteWriteBtn).setBackgroundColor(Color.LTGRAY)
+                itemView.findViewById<ImageButton>(R.id.editWriteBtn).setBackgroundColor(Color.LTGRAY)
+            }
+            else if(write.client!=null){
+                itemView.setBackgroundColor(Color.CYAN)
+                itemView.findViewById<ImageButton>(R.id.deleteWriteBtn).setBackgroundColor(Color.CYAN)
+                itemView.findViewById<ImageButton>(R.id.editWriteBtn).setBackgroundColor(Color.CYAN)
             }
             itemView.findViewById<ImageButton>(R.id.deleteWriteBtn).setOnClickListener {
                 showDeleteDialog(write)
@@ -78,9 +88,18 @@ class DoctorListFragment(private val doctor: Doctor) : Fragment() {
         }
         init {
             itemView.setOnClickListener(this)
+            itemView.setOnLongClickListener(this)
         }
         override fun onClick(v: View?) {
             callbacks?.showClientFragment(write.id, write.client)
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            val cl = itemView.findViewById<ConstraintLayout>(R.id.csButtons)
+            cl.visibility = View.VISIBLE
+            lastItemView?.findViewById<ConstraintLayout>(R.id.csButtons)?.visibility=View.GONE
+            lastItemView = if(lastItemView == itemView) null else itemView
+            return true
         }
 
 

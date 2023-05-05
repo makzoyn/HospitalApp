@@ -103,7 +103,6 @@ class DoctorFragment : Fragment() {
                 }
                 View.VISIBLE
             }
-
         val tabLayout = binding.tabDoctor
         for (i in 0 until tabLayout.tabCount) {
             val tab = tabLayout.getTabAt(i)
@@ -151,30 +150,19 @@ class DoctorFragment : Fragment() {
 
 
    private fun showTabOptionsDialog(doctor: Doctor) {
-        // Создаем массив с названиями опций
-        val options = arrayOf("Edit", "Delete")
-        // Создаем объект AlertDialog.Builder
+        val options = arrayOf("Изменить", "Удалить")
         val builder = AlertDialog.Builder(requireContext())
-        // Устанавливаем заголовок диалога
-        builder.setTitle("Tab options")
-        // Устанавливаем список опций для диалога
+        builder.setTitle("Выберите опцию")
         builder.setItems(options) { _, which ->
-            // Обрабатываем выбор опции
             when (which) {
                 0 -> {
-                    // Выбрана опция Edit /
-                    // / Здесь вы можете реализовать логику редактирования вкладки
-                    // Например, показать другой диалог с полями для ввода названия и иконки вкладки
                     showEditDialog(doctor.id, doctor)
                 }
-
-                1 -> { // Выбрана опция Delete // Здесь вы можете реализовать логику удаления вкладки
-                    // Например, вызвать метод TabLayout.removeTab(tab)
+                1 -> {
                     showDeleteDialog(hospitalID, doctor)
                 }
             }
         }
-        // Создаем и показываем диалог
         val dialog = builder.create()
         dialog.show()
     }
